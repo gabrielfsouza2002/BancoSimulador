@@ -1,0 +1,6 @@
+ktor:
+    application:
+        modules:
+            - br.com.silverbank.ApplicationKt.module
+    deployment:
+        port: 8080
