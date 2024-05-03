@@ -1,0 +1,155 @@
+:root {
+  --cor-saldo: #007bff;
+  --cor-saldo-bg: #e1f5fe;
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.navbar {
+  background-color: #004d99;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.navbar h1, .navbar nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+
+.saldo-valor {
+  font-size: 2em;
+  color: var(--cor-saldo);
+  background-color: var(--cor-saldo-bg);
+  padding: 20px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 20px;
+  transition: transform 0.6s ease;
+}
+
+.saldo-valor:hover {
+  transform: scale(1.05);
+}
+
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin: 20px;
+  padding: 20px;
+  text-align: left;
+}
+
+.filtros {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filtro-btn {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 10px 20px;
+}
+
+.filtro-btn:hover {
+  background-color: #0056b3;
+}
+
+.lista-transacoes {
+  list-style: none;
+  padding: 0;
+}
+
+.transacao {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.btn-transferir {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-transferir:hover {
+  background-color: #0056b3;
+}
+
+.receita span {
+  color: #28a745;
+}
+
+.despesa span {
+  color: #dc3545;
+}
+
+.data {
+  color: #6c757d;
+  font-size: 0.9em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input, button {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+/*#cartaoCredito {
+  /* Estilos para a seção do cartão de crédito 
+}*/

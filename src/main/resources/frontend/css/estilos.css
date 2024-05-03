@@ -1,0 +1,79 @@
+/* Padrão de Cores e Estilos Base */
+:root {
+  --azul-primario: #007bff;
+  --azul-escuro: #0056b3;
+  --azul-hover: #003d7a;
+  --cinza-fundo: #f8f9fa;
+  --cinza-texto: #666;
+  --branco: #ffffff;
+  --sombra: rgba(0,0,0,0.1);
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: var(--cinza-fundo);
+}
+
+.navbar {
+  background-color: var(--azul-primario);
+  color: var(--branco);
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  background-color: var(--azul-escuro);
+  color: var(--branco);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--azul-hover);
+}
+
+.hero, .features, .como-funciona {
+  padding: 2em;
+  text-align: center;
+}
+
+.features-content, .funciona-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.feature-item, .funciona-item {
+  width: 250px;
+  padding: 20px;
+  background-color: var(--branco);
+  box-shadow: 0 4px 6px var(--sombra);
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.btn {
+  text-decoration: none;
+}
+
+.feature-item img, .funciona-item img {
+  width: 100%; /* Ajusta a imagem para preencher o container */
+  height: auto;
+  border-radius: 10px; /* Arredonda os cantos da imagem */
+  margin-bottom: 1em;
+}
+
+h2, h3, h4 {
+  color: var(--azul-primario);
+}
+
+p {
+  color: var(--cinza-texto);
+}

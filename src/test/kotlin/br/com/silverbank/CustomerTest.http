@@ -3,9 +3,13 @@ Content-Type: application/json
 
 {
   "id": "100",
-  "firstName": "Jane",
-  "lastName": "Smith",
-  "email": "jane.smith@company.com"
+  "nome": "Ja3434ne",
+  "login": "bi343uel002",
+  "email": "jaASFne.smith@company.com",
+  "cpf": "47804811802",
+  "senha": "h2f23",
+  "contaBancaria": "43435-x",
+  "saldo": 245.9
 }
 
 
@@ -15,9 +19,13 @@ Content-Type: application/json
 
 {
   "id": "200",
-  "firstName": "John",
-  "lastName": "Smith",
-  "email": "john.smith@company.com"
+  "nome": "Jane",
+  "login": "biuel002",
+  "email": "jane.smith@company.com",
+  "cpf": "47804811802",
+  "senha": "h2f23",
+  "contaBancaria": "43435-x",
+  "saldo": 1245.9
 }
 
 ###
@@ -25,10 +33,14 @@ POST http://127.0.0.1:8080/customer
 Content-Type: application/json
 
 {
-  "id": "300",
-  "firstName": "Mary",
-  "lastName": "Smith",
-  "email": "mary.smith@company.com"
+  "id": "500",
+  "nome": "JaASFASFASFne",
+  "login": "biuel002",
+  "email": "jane.smith@company.com",
+  "cpf": "47804811802",
+  "senha": "h2f23",
+  "contaBancaria": "43435-x",
+  "saldo": 2435.9
 }
 
 

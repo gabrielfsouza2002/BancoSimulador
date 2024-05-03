@@ -5,72 +5,122 @@ import io.ktor.client.engine.apache.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.html.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
 import io.ktor.util.*
+import kotlinx.html.*
+import java.util.*
+
+
+
+data class UserSession(val sessionId: String, val name: String, val count: Int) : Principal
 
 fun Application.configureSecurity() {
-    data class MySession(val count: Int = 0)
+    val userSessions = mutableMapOf<String, UserSession>()
+
     install(Sessions) {
-        cookie<MySession>("MY_SESSION") {
-            cookie.extensions["SameSite"] = "lax"
+        cookie<UserSession>("user_session") {
+            cookie.path = "/"
+            cookie.maxAgeInSeconds = 60 * 60
         }
     }
-    authentication {
-            oauth("auth-oauth-google") {
-                urlProvider = { "http://localhost:8080/callback" }
-                providerLookup = {
-                    OAuthServerSettings.OAuth2ServerSettings(
-                        name = "google",
-                        authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
-                        accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
-                        requestMethod = HttpMethod.Post,
-                        clientId = System.getenv("GOOGLE_CLIENT_ID"),
-                        clientSecret = System.getenv("GOOGLE_CLIENT_SECRET"),
-                        defaultScopes = listOf("https://www.googleapis.com/auth/userinfo.profile")
-                    )
+    install(Authentication) {
+
+        form("auth-form") {
+            userParamName = "username"
+            passwordParamName = "password"
+            validate { credentials ->
+                when {
+                    (credentials.name == "jetbrains" && credentials.password == "foobar") -> {
+                        val sessionId = UUID.randomUUID().toString()
+                        userSessions[sessionId] = UserSession(sessionId, credentials.name, 1)
+                        UserIdPrincipal(sessionId)
+                    }
+                    (credentials.name == "jetbrains2" && credentials.password == "foobar2") -> {
+                        val sessionId = UUID.randomUUID().toString()
+                        userSessions[sessionId] = UserSession(sessionId, credentials.name, 1)
+                        UserIdPrincipal(sessionId)
+                    }
+                    else -> null
                 }
-                client = HttpClient(Apache)
             }
         }
-    authentication {
-        val myRealm = "MyRealm"
-        val usersInMyRealmToHA1: Map<String, ByteArray> = mapOf(
-            // pass="test", HA1=MD5("test:MyRealm:pass")="fb12475e62dedc5c2744d98eb73b8877"
-            "test" to hex("fb12475e62dedc5c2744d98eb73b8877")
-        )
-    
-        digest("myDigestAuth") {
-            digestProvider { userName, realm ->
-                usersInMyRealmToHA1[userName]
+
+        session<UserSession>("auth-session") {
+            validate { session ->
+                userSessions[session.sessionId]
+            }
+            challenge {
+                call.respondRedirect("/login")
+            }
+        }
+        basic("auth-basic") {
+            realm = "Access to the '/admin' path"
+            validate { credentials ->
+                if (credentials.name == "admin" && credentials.password == "password") {
+                    UserIdPrincipal("admin")
+                } else {
+                    null
+                }
             }
         }
     }
+
     routing {
-        get("/session/increment") {
-                val session = call.sessions.get<MySession>() ?: MySession()
-                call.sessions.set(session.copy(count = session.count + 1))
-                call.respondText("Counter is ${session.count}. Refresh to increment.")
-            }
-        authenticate("auth-oauth-google") {
-                    get("login") {
-                        call.respondRedirect("/callback")
-                    }
-        
-                    get("/callback") {
-                        val principal: OAuthAccessTokenResponse.OAuth2? = call.authentication.principal()
-                        call.sessions.set(UserSession(principal?.accessToken.toString()))
-                        call.respondRedirect("/hello")
+        get("/login") {
+            call.respondHtml {
+                body {
+                    form(action = "/login", encType = FormEncType.applicationXWwwFormUrlEncoded, method = FormMethod.post) {
+                        p {
+                            +"Username:"
+                            textInput(name = "username")
+                        }
+                        p {
+                            +"Password:"
+                            passwordInput(name = "password")
+                        }
+                        p {
+                            submitInput() { value = "Login" }
+                        }
                     }
                 }
-        authenticate("myDigestAuth") {
-            get("/protected/route/digest") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
             }
+        }
+
+        authenticate("auth-form") {
+            post("/login") {
+                val sessionId = call.principal<UserIdPrincipal>()?.name ?: ""
+                val userSession = userSessions[sessionId]
+                userSession?.let {
+                    call.sessions.set(it)
+                    call.respondRedirect("/hello/${it.sessionId}")
+                } ?: call.respondText("Unauthorized", status = HttpStatusCode.Unauthorized)
+            }
+        }
+
+        authenticate("auth-session", strategy = AuthenticationStrategy.Required) {
+            get("/hello/{sessionId}") {
+                val currentSessionId = call.parameters["sessionId"]
+                val userSession = userSessions[currentSessionId]
+
+                if (userSession != null) {
+                    val updatedSession = userSession.copy(count = userSession.count + 1)
+                    userSessions[currentSessionId ?: ""] = updatedSession
+                    call.sessions.set(updatedSession)
+                    call.respondText("Ola, ${userSession.name}! Visit count is ${userSession.count}.")
+                } else {
+                    call.respondText("Unauthorized", status = HttpStatusCode.Unauthorized)
+                }
+            }
+        }
+
+        get("/logout") { /*Arrumar esse logout, todos os usuarios deslogam quando um usu[ario desloga*/
+            val sessionId = call.principal<UserIdPrincipal>()?.name ?: ""
+            userSessions.remove(sessionId)
+            call.sessions.clear<UserSession>()
+            call.respondRedirect("/login")
         }
     }
 }
-
-class UserSession(accessToken: String)

@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
-class DAOFacadeImpl : DAOFacade {
+class DAOFacadeArticleImpl : DAOFacadeArticle {
     private fun resultRowToArticle(row: ResultRow) = Article(
         id = row[Articles.id],
         title = row[Articles.title],
@@ -44,7 +44,7 @@ class DAOFacadeImpl : DAOFacade {
     }
 }
 
-val dao: DAOFacade = DAOFacadeImpl().apply {
+val daoArticle: DAOFacadeArticle = DAOFacadeArticleImpl().apply {
     runBlocking {
         if(allArticles().isEmpty()) {
             addNewArticle("The drive to develop!", "...it's what keeps me going.")
