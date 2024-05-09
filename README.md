@@ -1,6 +1,6 @@
 # SilverBank - Banco Online
 
-O SilverBank é um projeto de banco online simplificado que oferece aos usuários uma experiência bancária digital segura e eficiente. Com um sistema de autenticação robusto, garante-se que apenas usuários autenticados possam acessar suas contas e realizar transações. Os usuários fazem login usando suas credenciais, como e-mail e senha, e a autorização é aplicada para garantir que eles só possam acessar e modificar seus próprios dados e realizar transações em suas próprias contas. Para proteger a privacidade e a segurança das informações, as senhas dos usuários são criptografadas e armazenadas de forma segura no banco de dados.
+O SilverBank é um projeto de banco online simplificado que oferece aos clientes uma experiência bancária digital segura e eficiente. Com um sistema de autenticação robusto, garante-se que apenas pessoas autenticadas possam acessar suas contas e realizar transações. Para acessar a plataforma, é necessário fazer login usando credenciais, como e-mail e senha. A autorização é aplicada para garantir que cada indivíduo só possa acessar e modificar seus próprios dados e realizar transações em suas respectivas contas. Para proteger a privacidade e a segurança das informações, as senhas são criptografadas e armazenadas de forma segura no banco de dados.
 
 
 ## Funcionalidades Principais
