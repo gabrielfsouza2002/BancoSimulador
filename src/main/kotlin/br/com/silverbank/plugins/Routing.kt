@@ -62,6 +62,7 @@ fun Application.configureRouting() {
 
     routing {
         customerEstRouting()
+        customerRouting()
         listOrdersRoute()
         getOrderRoute()
         totalizeOrderRoute()
