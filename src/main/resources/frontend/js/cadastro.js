@@ -25,9 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       if (mensagemErro) {
-          alert(mensagemErro); // Substitua por uma implementação mais elegante conforme necessário
+          alert(mensagemErro); 
       } else {
-          // Aqui você pode adicionar o código para enviar os dados do formulário
 
           const dadosUsuario = {
               nome: nome,
