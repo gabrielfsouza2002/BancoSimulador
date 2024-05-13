@@ -11,19 +11,18 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
 
     private fun resultRowToCustomer(row: ResultRow) = Customer(
         id = row[Customers.id],
-        nome = row[Customers.id],
-        login = row[Customers.id],
-        email = row[Customers.id],
-        cpf = row[Customers.id],
-        senha= row[Customers.id],
+        nome = row[Customers.nome],
+        login = row[Customers.login],
+        email = row[Customers.email],
+        cpf = row[Customers.cpf],
+        senha= row[Customers.senha],
         contaBancaria = row[Customers.contaBancaria],
         saldo = row[Customers.saldo].toFloat()
-
-        )
+    )
 
 
     override suspend fun allCustomers(): List<Customer> = dbQuery {
-        Articles.selectAll().map(::resultRowToCustomer)
+        Customers.selectAll().map(::resultRowToCustomer)
     }
     override suspend fun addNewCustomer(nome: String, login: String, email: String, cpf: String, senha: String, contaBancaria: String, saldo: Float): Customer? = dbQuery {
 
