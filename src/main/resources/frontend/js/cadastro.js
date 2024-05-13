@@ -25,15 +25,18 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       if (mensagemErro) {
-          alert(mensagemErro); 
+          alert(mensagemErro); // Substitua por uma implementação mais elegante conforme necessário
       } else {
+          // Aqui você pode adicionar o código para enviar os dados do formulário
 
           const dadosUsuario = {
               nome: nome,
               login: login,
               email: email,
               cpf: cpf,
-              senha: senha
+              senha: senha,
+              contaBancaria: "1234-5", // Substitua por um valor real
+              saldo: 10000.00 // Substitua por um valor real
           };
 
 
