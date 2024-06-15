@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
               .catch(error => {
                   console.error('Erro:', error);
               });
-
+          console.log(dadosUsuario)
           console.log('Formulário válido, enviar dados...');
       }
   });

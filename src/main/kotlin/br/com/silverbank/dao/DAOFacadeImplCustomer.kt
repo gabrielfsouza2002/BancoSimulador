@@ -24,6 +24,14 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
     override suspend fun allCustomers(): List<Customer> = dbQuery {
         Customers.selectAll().map(::resultRowToCustomer)
     }
+
+    override suspend fun customer(id: Int): Customer? = dbQuery {
+        Customers
+            .select { Customers.id eq id }
+            .map(::resultRowToCustomer)
+            .singleOrNull()
+    }
+
     override suspend fun addNewCustomer(nome: String, login: String, email: String, cpf: String, senha: String, contaBancaria: String, saldo: Float): Customer? = dbQuery {
 
        /* // Gerar um ID único para o cliente
@@ -35,6 +43,7 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
         // Saldo inicial de 10 mil
         val saldoInicial = 10000.00f*/
 
+        println("\n\n\n\n\n $nome $login $email\n\n\n\n\n")
 
 
         val insertStatement = Customers.insert {
@@ -54,9 +63,14 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
 }
 
 val daoCustomer: DAOFacadeCustomer = DAOFacadeImplCustomer().apply {
+
+    println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee2 \n\n\n\n\n")
+
     runBlocking {
-        if(allCustomers().isEmpty()) {
-            addNewCustomer(
+        println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee 3 \n\n\n\n\n")
+        //if(allCustomers().isEmpty()) {
+            println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee 3 \n\n\n\n\n")
+            /*addNewCustomer(
                 "gabriel",
                 "bielzin3",
                 "gabrielfsouza.araujo@usp.br",
@@ -64,7 +78,7 @@ val daoCustomer: DAOFacadeCustomer = DAOFacadeImplCustomer().apply {
                 "paraquedas123",
                 "3432-x",
                 24.3f
-            )
-        }
+            )*/
+        //}
     }
 }
