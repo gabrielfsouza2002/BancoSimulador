@@ -14,7 +14,7 @@ val customerStorage = mutableListOf<Customer>()
 
 
 object Customers : Table() {
-    val id = varchar("id", 255).autoIncrement()
+    val id = integer("id").autoIncrement()
     val nome = varchar("nome", 255)
     val login = varchar("login",30)
     val email = varchar("email", 255)

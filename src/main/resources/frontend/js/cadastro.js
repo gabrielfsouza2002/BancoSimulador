@@ -34,9 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
               login: login,
               email: email,
               cpf: cpf,
-              senha: senha,
-              contaBancaria: "1234-5", // Substitua por um valor real
-              saldo: 10000.00 // Substitua por um valor real
+              senha: senha
           };
 
 

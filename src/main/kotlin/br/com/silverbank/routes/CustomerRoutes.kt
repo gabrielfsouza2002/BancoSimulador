@@ -1,5 +1,6 @@
 package br.com.silverbank.routes
 
+import kotlinx.serialization.Serializable
 import br.com.silverbank.dao.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -7,14 +8,13 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.http.*
 
+@Serializable
 data class CustomerParameters(
     val nome: String,
     val login: String,
     val email: String,
     val cpf: String,
-    val senha: String,
-    val contaBancaria: String,
-    val saldo: Float
+    val senha: String
 )
 
 fun generateUniqueAccountNumber(): String {
@@ -25,28 +25,52 @@ fun generateUniqueAccountNumber(): String {
 fun Route.customerRouting() {
     route("/newCustomer") {
         post {
-            val customerParameters = call.receive<CustomerParameters>()
-            val nome = customerParameters.nome
-            val login = customerParameters.login
-            val email = customerParameters.email
-            val cpf = customerParameters.cpf
-            val senha = customerParameters.senha
+            try {
+                val customerParameters = call.receive<CustomerParameters>()
+                val nome = customerParameters.nome
+                val login = customerParameters.login
+                val email = customerParameters.email
+                val cpf = customerParameters.cpf
+                val senha = customerParameters.senha
 
-            println("\n \n \n" + senha)
+                println("\n \n \n" + senha)
 
-             // Gerar uma conta bancária única
-             val contaBancaria = generateUniqueAccountNumber()
+                // Gerar uma conta bancária única
+                val contaBancaria = generateUniqueAccountNumber()
 
-             // Saldo inicial de 10 mil
-             val saldoInicial = 10000.00f
+                // Saldo inicial de 10 mil
+                val saldoInicial = 10000.00f
 
                 val customer = daoCustomer.addNewCustomer(nome, login, email, cpf, senha, contaBancaria, saldoInicial)
                 if (customer != null) {
-                    call.respond(HttpStatusCode.Created, customer)
+                    val responseJson = """
+                        {
+                            "id": ${customer.id},
+                            "nome": "${customer.nome}",
+                            "login": "${customer.login}",
+                            "email": "${customer.email}",
+                            "cpf": "${customer.cpf}",
+                            "contaBancaria": "${customer.contaBancaria}",
+                            "saldo": ${customer.saldo}
+                        }
+                    """.trimIndent()
+                    call.respondText(responseJson, ContentType.Application.Json, HttpStatusCode.Created)
                 } else {
-                    call.respond(HttpStatusCode.InternalServerError)
+                    val errorJson = """
+                        {
+                            "error": "Erro ao criar cliente"
+                        }
+                    """.trimIndent()
+                    call.respondText(errorJson, ContentType.Application.Json, HttpStatusCode.InternalServerError)
                 }
-
+            } catch (e: Exception) {
+                val errorJson = """
+                    {
+                        "error": "Dados inválidos"
+                    }
+                """.trimIndent()
+                call.respondText(errorJson, ContentType.Application.Json, HttpStatusCode.BadRequest)
+            }
         }
     }
 }

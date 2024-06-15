@@ -10,7 +10,7 @@ import java.util.*
 class DAOFacadeImplCustomer : DAOFacadeCustomer {
 
     private fun resultRowToCustomer(row: ResultRow) = Customer(
-        id = row[Customers.id],
+        id = row[Customers.id].toString(),
         nome = row[Customers.nome],
         login = row[Customers.login],
         email = row[Customers.email],
