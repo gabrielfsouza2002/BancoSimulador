@@ -13,10 +13,10 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {DatabaseSingleton.init()
+    configureSecurity()
     configureRouting()
     configureTemplating()
     configureSockets()
-    configureSecurity()
     configureSerialization()
     /*configureDatabases()*/
 

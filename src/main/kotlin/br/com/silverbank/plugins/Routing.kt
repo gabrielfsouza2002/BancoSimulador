@@ -68,55 +68,8 @@ fun Application.configureRouting() {
         totalizeOrderRoute()
         articleRouting()
 
+
         staticResources("/home", "frontend")
-
-        /*get("/login") {
-            call.respondHtml {
-                body {
-                    form(action = "/login", encType = FormEncType.applicationXWwwFormUrlEncoded, method = FormMethod.post) {
-                        p {
-                            +"Username:"
-                            textInput(name = "username")
-                        }
-                        p {
-                            +"Password:"
-                            passwordInput(name = "password")
-                        }
-                        p {
-                            submitInput() { value = "Login" }
-                        }
-                    }
-                }
-            }
-        }
-
-        authenticate("auth-form") {
-            post("/login") {
-                val userName = call.principal<UserIdPrincipal>()?.name.toString()
-                call.sessions.set(UserSession(name = userName, count = 1))
-                call.respondRedirect("/hello")
-            }
-        }
-
-        authenticate("auth-session", strategy = AuthenticationStrategy.Required) {
-            get("/hello") {
-                val userSession = call.principal<UserSession>()
-                call.sessions.set(userSession?.copy(count = userSession.count + 1))
-                call.respondText("Hello, ${userSession?.name}! Visit count is ${userSession?.count}.")
-            }
-            authenticate("auth-basic", strategy = AuthenticationStrategy.Required) {
-                get("/admin") {
-                    val userSession = call.principal<UserSession>("auth-session")
-                    call.respondText("Hi, ${userSession?.name}! Welcome to the Admin page.")
-                }
-            }
-        }
-
-        get("/logout") {
-            call.sessions.clear<UserSession>()
-            call.respondRedirect("/login")
-        }*/
-
 
         get("/") {
             call.respondRedirect("home/html/index.html")

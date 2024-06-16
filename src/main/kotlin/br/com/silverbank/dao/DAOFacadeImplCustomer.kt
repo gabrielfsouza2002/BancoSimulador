@@ -4,6 +4,7 @@ import br.com.silverbank.dao.DatabaseSingleton.dbQuery
 import br.com.silverbank.models.*
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.math.BigDecimal
 import java.util.*
 
@@ -34,16 +35,8 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
 
     override suspend fun addNewCustomer(nome: String, login: String, email: String, cpf: String, senha: String, contaBancaria: String, saldo: Float): Customer? = dbQuery {
 
-       /* // Gerar um ID único para o cliente
-        val customerId = UUID.randomUUID().toString()
 
-        // Gerar uma conta bancária única
-        val contaBancaria = generateUniqueAccountNumber()
-
-        // Saldo inicial de 10 mil
-        val saldoInicial = 10000.00f*/
-
-        println("\n\n\n\n\n $nome $login $email\n\n\n\n\n")
+        //println("\n\n\n\n\n $nome $login $email\n\n\n\n\n")
 
 
         val insertStatement = Customers.insert {
@@ -56,29 +49,36 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
             it[Customers.saldo] = BigDecimal.valueOf(saldo.toDouble())
 
         }
+        println("\n\n\n\n\n $insertStatement \n\n\n\n\n")
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToCustomer)
 
     }
 
+    override suspend fun editCustomer(id: Int, nome: String, login: String, email: String, cpf: String, senha: String): Boolean = dbQuery {
+        Customers.update({ Customers.id eq id }) {
+            it[Customers.nome] = nome
+            it[Customers.login] = login
+            it[Customers.email] = email
+            it[Customers.cpf] = cpf
+            it[Customers.senha] = senha
+        } > 0
+    }
+
+    override suspend fun deleteCustomer(id: Int): Boolean = dbQuery {
+        Customers.deleteWhere { Customers.id eq id } > 0
+    }
 }
+
+
 
 val daoCustomer: DAOFacadeCustomer = DAOFacadeImplCustomer().apply {
 
     println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee2 \n\n\n\n\n")
 
     runBlocking {
-        println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee 3 \n\n\n\n\n")
-        //if(allCustomers().isEmpty()) {
-            println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee 3 \n\n\n\n\n")
-            /*addNewCustomer(
-                "gabriel",
-                "bielzin3",
-                "gabrielfsouza.araujo@usp.br",
-                "47804811802",
-                "paraquedas123",
-                "3432-x",
-                24.3f
-            )*/
-        //}
+        println("\n\n\n\n\n Aqui tem novos Customers LISTAAA ${allCustomers()} \n\n\n\n\n")
+        if (!allCustomers().isEmpty()) {
+            editCustomer(2, "Silver", "silver", "paraq@gmail.com", "123456789", "123456")
+        }
     }
 }

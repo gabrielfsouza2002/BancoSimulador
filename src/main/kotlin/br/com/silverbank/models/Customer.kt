@@ -24,5 +24,5 @@ object Customers : Table() {
     val saldo = decimal("saldo", 10, 2)
 
 
-    override val primaryKey = PrimaryKey(Articles.id)
+    override val primaryKey = PrimaryKey(id)
 }

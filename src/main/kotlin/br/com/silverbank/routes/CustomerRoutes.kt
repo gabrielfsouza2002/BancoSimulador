@@ -2,6 +2,7 @@ package br.com.silverbank.routes
 
 import kotlinx.serialization.Serializable
 import br.com.silverbank.dao.*
+import br.com.silverbank.plugins.UserSession
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -21,6 +22,7 @@ fun generateUniqueAccountNumber(): String {
     val randomNumber = (1000..9999).random()
     return randomNumber.toString()
 }
+
 
 fun Route.customerRouting() {
     route("/newCustomer") {
@@ -43,13 +45,13 @@ fun Route.customerRouting() {
                 val saldoInicial = 10000.00f
 
 
-                println("\n\n\n\n\n $contaBancaria $login \n\n\n\n\n")
+                //println("\n\n\n\n\n $contaBancaria $login \n\n\n\n\n")
 
-                val teste = daoArticle.addNewArticle("testeC", "testeCC")
-                println("\n\n\n\n\n $teste \n\n\n\n\n")
+               /*val teste = daoArticle.addNewArticle("testeC", "testeCC")
+                println("\n\n\n\n\n $teste \n\n\n\n\n")*/
 
                 val customer = daoCustomer.addNewCustomer(nome, login, email, cpf, senha, contaBancaria, saldoInicial)
-
+                println("\n\n\n\n\n $customer\n\n\n\n\n")
 
 
 

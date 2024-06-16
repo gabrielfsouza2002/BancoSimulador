@@ -2,7 +2,6 @@ package br.com.silverbank.models
 
 
 import org.jetbrains.exposed.sql.*
-import java.util.concurrent.atomic.AtomicInteger
 
 
 /*Um artigo possui três atributos: id, título e corpo. Os atributos de título e corpo podem ser especificados diretamente enquanto um ID exclusivo é gerado automaticamente usando AtomicInteger - uma estrutura de dados thread-safe que garante que dois artigos nunca receberão o mesmo ID. Dentro do Article.kt, vamos criar uma lista mutável para armazenar artigos e adicionar a primeira entrada:*/
