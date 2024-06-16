@@ -133,13 +133,21 @@ fun Application.configureSecurity() {
                     val userSession = userSessions[sessionId]
                     userSession?.let {
                         call.sessions.set(it)
-                        call.respondRedirect("/hello/${it.sessionId}")
+                        call.respondRedirect("/dashboards/${it.sessionId}")
                     } ?: call.respondText("Unauthorized", status = HttpStatusCode.Unauthorized)
                 }
             }
 
             authenticate("auth-session", strategy = AuthenticationStrategy.Required) {
-                get("/hello/{sessionId}") {
+                val loginFile2 = File("/home/gabriel/Documents/Projeto/SilverBank/src/main/resources/frontend/html/dashboard.html")
+                get("/dashboards/{sessionId}") {
+
+                    if (loginFile2.exists()) {
+                        call.respondFile(loginFile2)
+                    } else {
+                        call.respondText("Arquivo não encontrado", status = HttpStatusCode.NotFound)
+                    }
+
                     val currentSessionId = call.parameters["sessionId"]
                     val userSession = userSessions[currentSessionId]
 
