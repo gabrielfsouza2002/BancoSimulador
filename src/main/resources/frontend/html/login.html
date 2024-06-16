@@ -1,31 +1,103 @@
+
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SilverBank - Login</title>
-    <link rel="stylesheet" href="../css/cadastro.css">
+    <title>Login</title>
+    <style>
+        :root {
+            --azul-primario: #007bff;
+            --azul-escuro: #0056b3;
+            --azul-hover: #003d7a;
+            --cinza-fundo: #f8f9fa;
+            --cinza-texto: #666;
+            --branco: #ffffff;
+            --sombra: rgba(0,0,0,0.1);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--cinza-fundo);
+        }
+
+        .navbar {
+            background-color: var(--azul-primario);
+            color: var(--branco);
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--azul-escuro);
+            color: var(--branco);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--azul-hover);
+        }
+
+        .hero {
+            padding: 2em;
+            text-align: center;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        h2, h3, h4 {
+            color: var(--azul-primario);
+        }
+
+        p {
+            color: var(--cinza-texto);
+        }
+    </style>
 </head>
 <body>
-    <header class="navbar">
-        <h1>SilverBank</h1>
-        <div>
-            <a href="index.html" class="btn">Voltar</a>
+<div class="navbar">
+    <h1>Login</h1>
+</div>
+<div class="hero">
+    <h2>Bem-vindo de volta!</h2>
+    <p>Faça login para acessar sua conta.</p>
+</div>
+<div class="login-container">
+    <form action="/login" method="post">
+        <div class="form-group">
+            <label>Nome de usuário</label>
+            <input type="text" name="username" class="form-control" placeholder="Digite seu nome de usuário" required>
         </div>
-    </header>
-    <main>
-        <section class="hero">
-            <h2>Login no SilverBank</h2>
-            <p>Acesse sua conta e gerencie suas finanças de maneira fácil e segura.</p>
-        </section>
-        <section class="cadastro">
-            <form class="cadastro-form">
-                <input type="login" placeholder="login" required>
-                <input type="password" placeholder="Senha" required id="senha">
-                <button type="submit" class="btn">Entrar</button>
-            </form>
-        </section>
-    </main>
-    <script src="../js/login.js"></script>
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" name="password" class="form-control" placeholder="Digite sua senha" required>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn" value="Entrar">
+        </div>
+    </form>
+</div>
 </body>
 </html>

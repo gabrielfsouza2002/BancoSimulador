@@ -9,6 +9,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.html.*
+import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -17,26 +18,29 @@ import io.ktor.util.*
 import kotlinx.html.*
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
+import java.io.File
 import java.util.*
+import br.com.silverbank.plugins.*
 
 data class UserSession(val sessionId: String, val name: String, val count: Int) : Principal
 
-@Serializable
+/*@Serializable
 data class LoginParameters(
     val username: String,
     val password: String
-)
+)*/
 
 suspend fun checkUserCredentials(username: String, password: String): Boolean {
     return DatabaseSingleton.dbQuery {
         Customers.select { Customers.login eq username and (Customers.senha eq password) }.count() > 0
     }
 }
-var validUsername: String? = null
-var validPassword: String? = null
+
+/*var validUsername: String? = null
+var validPassword: String? = null*/
 fun Application.configureSecurity() {
 
-    routing {
+/*    routing {
         route("/loginDate") {
 
             post {
@@ -74,7 +78,7 @@ fun Application.configureSecurity() {
             }
 
         }
-    }
+    }*/
 
         val userSessions = mutableMapOf<String, UserSession>()
         install(Sessions) {
@@ -86,12 +90,11 @@ fun Application.configureSecurity() {
 
         install(Authentication) {
 
-
             form("auth-form") {
                 userParamName = "username"
                 passwordParamName = "password"
                 validate { credentials ->
-                    if (checkUserCredentials(credentials.name, credentials.password)) {
+                    if (checkUserCredentials(credentials.name, credentials.password)){
                         val sessionId = UUID.randomUUID().toString()
                         userSessions[sessionId] = UserSession(sessionId, credentials.name, 1)
                         UserIdPrincipal(sessionId)
@@ -99,7 +102,6 @@ fun Application.configureSecurity() {
                         null
                     }
                 }
-                println("\n\n\n\n\n\n TESTE2  $userSessions  \n\n\n\n\n\n")
             }
 
             session<UserSession>("auth-session") {
@@ -110,36 +112,17 @@ fun Application.configureSecurity() {
                     call.respondRedirect("/login")
                 }
             }
-
         }
-
         routing{
 
+            val loginFile = File("/home/gabriel/Documents/Projeto/SilverBank/src/main/resources/frontend/html/login.html")
             get("/login") {
-
-                call.respondHtml {
-                    body {
-                        form(
-                            action = "/login",
-                            encType = FormEncType.applicationXWwwFormUrlEncoded,
-                            method = FormMethod.post
-                        ) {
-                            p {
-                                +"Username:"
-                                textInput(name = "username")
-                            }
-                            p {
-                                +"Password:"
-                                passwordInput(name = "password")
-                            }
-                            p {
-                                submitInput() { value = "Login" }
-                            }
-                        }
-                    }
+                if (loginFile.exists()) {
+                    call.respondFile(loginFile)
+                } else {
+                    call.respondText("Arquivo não encontrado", status = HttpStatusCode.NotFound)
                 }
             }
-
 
             authenticate("auth-form") {
 

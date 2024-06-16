@@ -61,6 +61,9 @@ fun Application.configureRouting() {
     }*/
 
     routing {
+
+        staticResources("/home", "frontend")
+
         customerEstRouting()
         customerRouting()
         listOrdersRoute()
@@ -69,7 +72,6 @@ fun Application.configureRouting() {
         articleRouting()
 
 
-        staticResources("/home", "frontend")
 
         get("/") {
             call.respondRedirect("home/html/index.html")
