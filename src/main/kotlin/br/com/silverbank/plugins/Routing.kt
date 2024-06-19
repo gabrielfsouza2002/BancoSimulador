@@ -77,6 +77,10 @@ fun Application.configureRouting() {
             call.respondRedirect("home/html/index.html")
         }
 
+        get("/favicon.ico") {
+            call.respond(HttpStatusCode.NoContent)
+        }
+
         get("/test0") {
             call.respondText("Hello World!")
         }
