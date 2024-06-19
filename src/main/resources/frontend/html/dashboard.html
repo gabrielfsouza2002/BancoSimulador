@@ -1,71 +1,157 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Silver Bank</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --cor-saldo: #007bff;
+            --cor-saldo-bg: #e1f5fe;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #004d99;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .navbar h1, .navbar nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .saldo-valor {
+            font-size: 2em;
+            color: var(--cor-saldo);
+            background-color: var(--cor-saldo-bg);
+            padding: 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: transform 0.6s ease;
+        }
+        .saldo-valor:hover {
+            transform: scale(1.05);
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: 20px;
+            padding: 20px;
+            text-align: left;
+        }
+        .filtros {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .filtro-btn {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin: 0 5px;
+            padding: 10px 20px;
+        }
+        .filtro-btn:hover {
+            background-color: #0056b3;
+        }
+        .lista-transacoes {
+            list-style: none;
+            padding: 0;
+        }
+        .transacao {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn-transferir {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-transferir:hover {
+            background-color: #0056b3;
+        }
+        .receita span {
+            color: #28a745;
+        }
+        .despesa span {
+            color: #dc3545;
+        }
+        .data {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="/home/js/dashboard.js"></script>
+    <link rel="shortcut icon" href="/static/imgs/favicon.ico">
 </head>
 <body>
-    <div class="container">
-        <header class="navbar">
-            <h1>Silver Bank</h1>
-            <!--<nav>
-                <a href="#saldo">Saldo</a>
-                <a href="#transacoes">Transações</a>
-                <a href="#transferencia">Transferência</a>
-                <a href="#pagamento">Pagamento</a>
-            </nav> -->
-        </header>
-        <main>
-          <section id="saldo" class="card">
+<div class="container">
+    <header class="navbar">
+        <h1>Silver Bank</h1>
+    </header>
+    <main>
+        <section class="card" id="saldo">
             <h2>Saldo Atual</h2>
-            <div id="valorSaldo" class="saldo-valor">R$ 5000,00</div>
+            <div class="saldo-valor" id="valorSaldo">R$ 0.00</div>
         </section>
-        
-        <!--<section id="cartaoCredito" class="card">
-            <h2>Cartão de Crédito</h2>
-            <form id="formCartaoCredito">
-                <input type="text" id="numeroCartao" placeholder="Número do cartão" required>
-                <input type="text" id="nomeCartao" placeholder="Nome no cartão" required>
-                <input type="text" id="validadeCartao" placeholder="Validade (MM/AA)" required>
-                <input type="text" id="cvvCartao" placeholder="CVV" required>
-                <button type="submit">Salvar</button>
+        <section class="card" id="transferencia">
+            <h2>Realizar Transferência</h2>
+            <form id="formTransferencia">
+                <input type="number" id="valorTransferencia" placeholder="Valor" required>
+                <input type="text" id="contaDestino" placeholder="Conta destino" required>
+                <button type="submit">Transferir</button>
             </form>
-          </section> -->
-        <!--<section id="transacoes" class="card">
-          <h2>Últimas Transações</h2>
-          <ul class="lista-transacoes">
-              <li class="transacao receitas"><span>Salário: +R$ 3.000,00</span><span class="data">01/10/2023</span></li>
-              <li class="transacao despesas"><span>Supermercado: -R$ 150,00</span><span class="data" >03/10/2023</span></li>
-              <li class="transacao receitas"><span>Transferência recebida: +R$ 200,00</span><span class="data" >05/10/2023</span></li>
-          </ul>
-      </section> -->
-<!-- Seção de Transferência -->
-<section id="transferencia" class="card">
-  <h2>Realizar Transferência</h2>
-  <form id="formTransferencia">
-      <input type="number" id="valorTransferencia" placeholder="Valor" required>
-      <input type="text" id="contaDestino" placeholder="Conta destino" required>
-      <button type="submit">Transferir</button>
-  </form>
-</section>
-
-<!-- #Seção de Pagamento 
-<section id="pagamento" class="card">
-  <h2>Realizar Pagamento</h2>
-  <form id="formPagamento">
-      <input type="text" id="codigoBarras" placeholder="Código de barras" required>
-      #Novo campo para o valor do pagamento
-      <input type="number" id="valorPagamento" placeholder="Valor do pagamento" step="0.01" required>
-      <button type="submit">Pagar</button>
-  </form>
-</section>-->
-
-        </main>
-    </div>
-    <script src="../js/dashboard.js"></script>
+        </section>
+    </main>
+</div>
 </body>
-
 </html>

@@ -5,14 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault(); // Impede o envio do formulário
 
         // Validação dos campos
-
         const senha = formLogin.querySelector('input[placeholder="Senha"]').value;
         const login = formLogin.querySelector('input[placeholder="login"]').value;
-
-        let mensagemErro = '';
-        if (!senha || !login) {
-            mensagemErro = 'Todos os campos são obrigatórios.';
-        }
 
         const loginData = {
             username: login,
