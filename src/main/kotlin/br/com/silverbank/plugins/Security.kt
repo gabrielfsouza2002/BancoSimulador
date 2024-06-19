@@ -2,25 +2,19 @@ package br.com.silverbank.plugins
 
 import br.com.silverbank.dao.DatabaseSingleton
 import br.com.silverbank.models.Customers
-import br.com.silverbank.routes.CustomerParameters
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.html.*
-import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import io.ktor.util.*
 import kotlinx.html.*
-import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
 import java.io.File
 import java.util.*
-import br.com.silverbank.plugins.*
+
 
 data class UserSession(val sessionId: String, val name: String, val count: Int) : Principal
 
@@ -350,7 +344,6 @@ fun Application.configureSecurity() {
                     .singleOrNull()
             }
 
-            println("\n\n\n\n\nfromUserAccountNumber: $fromUserAccountNumber, contaDestino: $contaDestino\n\n\n\n\n")
             if (fromUserAccountNumber == contaDestino) {
                 call.respond(HttpStatusCode.BadRequest, "Não é possível transferir para a própria conta")
                 return@post
@@ -368,7 +361,7 @@ fun Application.configureSecurity() {
             val sessionId = call.principal<UserIdPrincipal>()?.name ?: ""
             userSessions.remove(sessionId)
             call.sessions.clear<UserSession>()
-            call.respondRedirect("/login")
+            call.respondRedirect("/")
         }
     }
 }

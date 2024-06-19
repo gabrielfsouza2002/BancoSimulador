@@ -1,6 +1,5 @@
 package br.com.silverbank.dao
 
-
 import br.com.silverbank.models.*
 import kotlinx.coroutines.*
 import org.jetbrains.exposed.sql.*
@@ -14,7 +13,7 @@ object DatabaseSingleton {
         val jdbcURL = "jdbc:h2:file:./build/db"
         val database = Database.connect(jdbcURL, driverClassName)
         transaction(database) {
-            SchemaUtils.create(Articles, Customers)
+            SchemaUtils.create(Customers)
         }
     }
 

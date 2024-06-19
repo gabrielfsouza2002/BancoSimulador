@@ -50,5 +50,4 @@ fun Application.configureDatabases() {
             call.respond(HttpStatusCode.OK)
         }
     }
-}
-*/
+}*/

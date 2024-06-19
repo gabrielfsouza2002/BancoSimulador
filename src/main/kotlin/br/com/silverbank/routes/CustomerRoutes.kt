@@ -23,10 +23,9 @@ fun generateUniqueAccountNumber(): String {
     return randomNumber.toString()
 }
 
-
 fun Route.customerRouting() {
-    route("/newCustomer") {
 
+    route("/newCustomer") {
         post {
             try {
                 val customerParameters = call.receive<CustomerParameters>()
@@ -36,24 +35,14 @@ fun Route.customerRouting() {
                 val cpf = customerParameters.cpf
                 val senha = customerParameters.senha
 
-
-
                 // Gerar uma conta bancária única
                 val contaBancaria = generateUniqueAccountNumber()
 
                 // Saldo inicial de 10 mil
                 val saldoInicial = 10000.00f
 
-
-                //println("\n\n\n\n\n $contaBancaria $login \n\n\n\n\n")
-
-               /*val teste = daoArticle.addNewArticle("testeC", "testeCC")
-                println("\n\n\n\n\n $teste \n\n\n\n\n")*/
-
                 val customer = daoCustomer.addNewCustomer(nome, login, email, cpf, senha, contaBancaria, saldoInicial)
                 println("\n\n\n\n\n $customer\n\n\n\n\n")
-
-
 
                 if (customer != null) {
                     val responseJson = """
@@ -67,8 +56,9 @@ fun Route.customerRouting() {
                             "saldo": ${customer.saldo}
                         }
                     """.trimIndent()
-                    println("\n\n\n\n\n $responseJson \n\n\n\n")
+
                     call.respondText(responseJson, ContentType.Application.Json, HttpStatusCode.Created)
+
                 } else {
                     val errorJson = """
                         {
@@ -77,6 +67,7 @@ fun Route.customerRouting() {
                     """.trimIndent()
                     call.respondText(errorJson, ContentType.Application.Json, HttpStatusCode.InternalServerError)
                 }
+
             } catch (e: Exception) {
                 val errorJson = """
                     {

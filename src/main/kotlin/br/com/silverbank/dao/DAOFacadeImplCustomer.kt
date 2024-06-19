@@ -6,7 +6,6 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.math.BigDecimal
-import java.util.*
 
 class DAOFacadeImplCustomer : DAOFacadeCustomer {
 
@@ -35,10 +34,6 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
 
     override suspend fun addNewCustomer(nome: String, login: String, email: String, cpf: String, senha: String, contaBancaria: String, saldo: Float): Customer? = dbQuery {
 
-
-        //println("\n\n\n\n\n $nome $login $email\n\n\n\n\n")
-
-
         val insertStatement = Customers.insert {
             it[Customers.nome] = nome
             it[Customers.login] = login
@@ -49,9 +44,7 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
             it[Customers.saldo] = BigDecimal.valueOf(saldo.toDouble())
 
         }
-        println("\n\n\n\n\n $insertStatement \n\n\n\n\n")
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToCustomer)
-
     }
 
     override suspend fun editCustomer(id: Int, nome: String, login: String, email: String, cpf: String, senha: String): Boolean = dbQuery {
@@ -69,16 +62,7 @@ class DAOFacadeImplCustomer : DAOFacadeCustomer {
     }
 }
 
-
-
 val daoCustomer: DAOFacadeCustomer = DAOFacadeImplCustomer().apply {
 
-    println("\n\n\n\n\n testeeeeeeeeeeeeeeeeeeeeeeeeee2 \n\n\n\n\n")
 
-    runBlocking {
-        println("\n\n\n\n\n Aqui tem novos Customers LISTAAA ${allCustomers()} \n\n\n\n\n")
-        if (!allCustomers().isEmpty()) {
-            editCustomer(2, "Silver", "silver", "paraq@gmail.com", "123456789", "123456")
-        }
-    }
 }
