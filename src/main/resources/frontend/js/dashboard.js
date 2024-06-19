@@ -51,4 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error('Elemento saldoAtual não encontrado.');
     }
+
+    document.getElementById('logout').addEventListener('click', function() {
+        window.location.href = '/logout'; // Redireciona para a página inicial ou qualquer outra página desejada
+    });
 });

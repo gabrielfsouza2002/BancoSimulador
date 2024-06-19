@@ -2,7 +2,6 @@ package br.com.silverbank.routes
 
 import kotlinx.serialization.Serializable
 import br.com.silverbank.dao.*
-import br.com.silverbank.plugins.UserSession
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*

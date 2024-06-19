@@ -16,7 +16,4 @@ fun Application.module() {DatabaseSingleton.init()
     configureTemplating()
     configureSockets()
     configureSerialization()
-
-
-
 }

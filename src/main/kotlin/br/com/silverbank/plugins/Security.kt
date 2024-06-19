@@ -15,7 +15,6 @@ import org.jetbrains.exposed.sql.*
 import java.io.File
 import java.util.*
 
-
 data class UserSession(val sessionId: String, val name: String, val count: Int) : Principal
 
 suspend fun checkUserCredentials(username: String, password: String): Boolean {
@@ -81,6 +80,9 @@ fun Application.configureSecurity() {
                 } else {
                     null
                 }
+            }
+            challenge {
+                call.respondRedirect("/login?error=true")
             }
         }
 
