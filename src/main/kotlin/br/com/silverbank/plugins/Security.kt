@@ -6,6 +6,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.html.*
+import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -97,13 +98,11 @@ fun Application.configureSecurity() {
     }
 
     routing {
+
+        staticResources("/home", "frontend")
+
         get("/login") {
-            val loginFile = File("/home/gabriel/Documents/Projeto/SilverBank/src/main/resources/frontend/html/login.html")
-            if (loginFile.exists()) {
-                call.respondFile(loginFile)
-            } else {
-                call.respondText("Arquivo não encontrado", status = HttpStatusCode.NotFound)
-            }
+            call.respondRedirect("home/html/login.html")
         }
 
         authenticate("auth-form") {
@@ -128,9 +127,9 @@ fun Application.configureSecurity() {
                     userSessions[currentSessionId ?: ""] = updatedSession
                     call.sessions.set(updatedSession)
 
-                    val dashboardFile = File("/home/gabriel/Documents/Projeto/SilverBank/src/main/resources/frontend/html/dashboard.html")
-                    if (dashboardFile.exists()) {
-                        val htmlContent = dashboardFile.readText().replace("R$ 0.00", "R$ $balance")
+                    val dashboardResource = this::class.java.classLoader.getResource("frontend/html/dashboard.html")
+                    if (dashboardResource != null) {
+                        val htmlContent = dashboardResource.readText().replace("R$ 0.00", "R$ $balance")
                         call.respondText(htmlContent, ContentType.Text.Html)
                     } else {
                         call.respondText("Arquivo não encontrado", status = HttpStatusCode.NotFound)

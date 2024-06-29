@@ -32,6 +32,8 @@ fun Application.configureTemplating() {
         get("/html-freemarker") {
             call.respond(FreeMarkerContent("index.ftl", mapOf("data" to IndexData(listOf(1, 2, 3))), ""))
         }
+
+
     }
 }
 

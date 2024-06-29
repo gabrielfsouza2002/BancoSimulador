@@ -11,17 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (operacao === 'adicionar') {
                 saldo += valor;
             }
-            saldoAtual.innerText = `R$ ${saldo.toFixed(1).replace(',', '.')}`;
+            saldoAtual.innerText = `R$ ${saldo.toFixed(2).replace('.', ',')}`;
         }
 
         document.getElementById('formTransferencia').addEventListener('submit', function(e) {
             console.log('Botão foi pressionado com sucesso');
             e.preventDefault();
-            const valor = parseFloat(document.getElementById('valorTransferencia').value);
+            const valor = parseFloat(document.getElementById('valorTransferencia').value.replace(',', '.'));
             const contaDestino = document.getElementById('contaDestino').value;
 
             if (valor > 0 && saldo >= valor) {
-                console.log(`Valor: ${valor}, Conta Destino: ${contaDestino}`)
+                console.log(`Valor: ${valor}, Conta Destino: ${contaDestino}`);
                 fetch('/transfer', {
                     method: 'POST',
                     headers: {
